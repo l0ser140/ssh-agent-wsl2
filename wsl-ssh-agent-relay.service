@@ -1,0 +1,23 @@
+[Unit]
+Description=wsl-ssh-agent-relay
+After=sockets.target
+Requires=sockets.target
+
+[Service]
+Type=simple
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=wsl-ssh-agent-relay
+WorkingDirectory=/
+
+User=root
+Group=root
+
+Environment=WSL_AGENT_SSH_SOCK=/var/run/wsl-ssh-agent.sock
+Environment=RELAY_BIN=/usr/local/bin/npiperelay.exe
+
+ExecStart=/usr/bin/socat -d -d UNIX-LISTEN:"\"${WSL_AGENT_SSH_SOCK}\"",fork,mode=666 EXEC:"\"\'${RELAY_BIN}\' -ei -s \'//./pipe/openssh-ssh-agent\'\"",nofork
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
