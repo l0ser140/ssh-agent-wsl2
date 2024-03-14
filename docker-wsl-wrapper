@@ -22,7 +22,7 @@ argList=$(echo $argList | sed 's/^ *//')
 date > /tmp/test-wsl-wrapper
 echo $argList >> /tmp/test-wsl-wrapper
 
-argList=$(echo $argList | sed -r 's/([a-zA-z]\:\\[^:]*)/$(wslpath "\1")/g' | tee -a /tmp/test-wsl-wrapper)
+argList=$(echo $argList | sed -r 's/([a-zA-z]\:\/[^:]*)/$(wslpath "\1")/g' | tee -a /tmp/test-wsl-wrapper)
 echo $argList >> /tmp/test-wsl-wrapper
 
 whoami >> /tmp/test-wsl-wrapper
