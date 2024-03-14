@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/env sh
+
+. "$HOME/.profile"
 
 #initialize the variable that will contain the whole argument string
 argList=""
@@ -16,5 +18,14 @@ done
 
 #remove a possible trailing space at the beginning of the list
 argList=$(echo $argList | sed 's/^ *//')
-argList=$(sed -r 's/([a-zA-z]\:\\[^:]*)/$(wslpath "\1")/g' <<< $argList)
+
+date > /tmp/test-wsl-wrapper
+echo $argList >> /tmp/test-wsl-wrapper
+
+argList=$(echo $argList | sed -r 's/([a-zA-z]\:\\[^:]*)/$(wslpath "\1")/g' | tee -a /tmp/test-wsl-wrapper)
+echo $argList >> /tmp/test-wsl-wrapper
+
+whoami >> /tmp/test-wsl-wrapper
+
+eval "echo $argList" >> /tmp/test-wsl-wrapper
 eval "docker $argList"
