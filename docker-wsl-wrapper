@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#initialize the variable that will contain the whole argument string
+argList=""
+#iterate on each argument
+for arg in "$@"
+do
+  #if an argument contains a white space, enclose it in double quotes and append to the list
+  #otherwise simply append the argument to the list
+  if echo $arg | grep -q " "; then
+   argList="$argList \"$arg\""
+  else
+   argList="$argList $arg"
+  fi
+done
+
+#remove a possible trailing space at the beginning of the list
+argList=$(echo $argList | sed 's/^ *//')
+argList=$(sed -r 's/([a-zA-z]\:\\[^:]*)/$(wslpath "\1")/g' <<< $argList)
+eval "docker $argList"
