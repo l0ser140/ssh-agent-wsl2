@@ -52,8 +52,11 @@ Wrapper allows using docker command directly from windows converting Windows pat
 
 ## Installation
 Uninstall docker-cli if it's installed.
+
 Copy `docker.bat` into any location added to PATH. `C:\bin` for example
+
 Copy `wsl-docker-wrapper` into `/usr/local/bin` inside WSL
+
 Set execute permission `chmod +x /usr/local/bin/wsl-docker-wrapper`
 
 Now you will be able to use docker commands from Windows and don't care about paths while mounting volumes.
